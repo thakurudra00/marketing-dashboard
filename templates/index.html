@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Marketing Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<h1 class="title">📊 Marketing Intelligence Dashboard</h1>
+
+<div class="grid">
+
+    <div class="card" onclick="toggleCard(this)">
+        <h3>ROI</h3>
+        <div class="content">
+            <input id="roi_spend" placeholder="Spend">
+            <input id="roi_revenue" placeholder="Revenue">
+            <p>Result: <span id="roi_result">0</span>%</p>
+        </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+        <h3>ROAS</h3>
+        <div class="content">
+            <input id="roas_spend" placeholder="Spend">
+            <input id="roas_revenue" placeholder="Revenue">
+            <p>Result: <span id="roas_result">0</span></p>
+        </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+        <h3>CPC</h3>
+        <div class="content">
+            <input id="cpc_spend" placeholder="Spend">
+            <input id="cpc_clicks" placeholder="Clicks">
+            <p>Result: <span id="cpc_result">0</span></p>
+        </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+        <h3>CPA</h3>
+        <div class="content">
+            <input id="cpa_spend" placeholder="Spend">
+            <input id="cpa_conv" placeholder="Conversions">
+            <p>Result: <span id="cpa_result">0</span></p>
+        </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+        <h3>CTR</h3>
+        <div class="content">
+            <input id="ctr_clicks" placeholder="Clicks">
+            <input id="ctr_impr" placeholder="Impressions">
+            <p>Result: <span id="ctr_result">0</span>%</p>
+        </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+        <h3>Conversion Rate</h3>
+        <div class="content">
+            <input id="cr_clicks" placeholder="Clicks">
+            <input id="cr_conv" placeholder="Conversions">
+            <p>Result: <span id="cr_result">0</span>%</p>
+        </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+        <h3>CPL</h3>
+        <div class="content">
+            <input id="cpl_spend" placeholder="Spend">
+            <input id="cpl_leads" placeholder="Leads">
+            <p>Result: <span id="cpl_result">0</span></p>
+        </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+        <h3>Break-even ROAS</h3>
+        <div class="content">
+            <input id="ber_margin" placeholder="Margin %">
+            <p>Result: <span id="ber_result">0</span></p>
+        </div>
+    </div>
+
+    <div class="card" onclick="toggleCard(this)">
+        <h3>CLV</h3>
+        <div class="content">
+            <input id="clv_aov" placeholder="AOV">
+            <input id="clv_freq" placeholder="Frequency">
+            <input id="clv_life" placeholder="Years">
+            <p>Result: <span id="clv_result">0</span></p>
+        </div>
+    </div>
+
+</div>
+
+<!-- 🔥 SUMMARY PANEL -->
+<div class="summary">
+    <h2>📈 Live Performance Summary</h2>
+    <div class="summary-grid">
+
+        <div class="summary-card">ROI: <span id="s_roi">0</span>%</div>
+        <div class="summary-card">ROAS: <span id="s_roas">0</span></div>
+        <div class="summary-card">CPC: <span id="s_cpc">0</span></div>
+        <div class="summary-card">CPA: <span id="s_cpa">0</span></div>
+        <div class="summary-card">CTR: <span id="s_ctr">0</span>%</div>
+        <div class="summary-card">CR: <span id="s_cr">0</span>%</div>
+        <div class="summary-card">CPL: <span id="s_cpl">0</span></div>
+        <div class="summary-card">Break-even ROAS: <span id="s_ber">0</span></div>
+        <div class="summary-card">CLV: <span id="s_clv">0</span></div>
+
+    </div>
+</div>
+
+<script>
+function val(id){
+    return parseFloat(document.getElementById(id).value) || 0;
+}
+
+// prevent collapse when typing
+document.querySelectorAll("input").forEach(input => {
+    input.addEventListener("click", (e) => e.stopPropagation());
+    input.addEventListener("input", calculateAll);
+});
+
+function toggleCard(selectedCard) {
+    document.querySelectorAll(".card").forEach(card => {
+        if (card !== selectedCard) {
+            card.classList.remove("active");
+        }
+    });
+    selectedCard.classList.toggle("active");
+}
+
+function calculateAll() {
+
+    let roi = val("roi_spend") ? ((val("roi_revenue") - val("roi_spend")) / val("roi_spend")) * 100 : 0;
+    let roas = val("roas_spend") ? val("roas_revenue") / val("roas_spend") : 0;
+    let cpc = val("cpc_clicks") ? val("cpc_spend") / val("cpc_clicks") : 0;
+    let cpa = val("cpa_conv") ? val("cpa_spend") / val("cpa_conv") : 0;
+    let ctr = val("ctr_impr") ? (val("ctr_clicks") / val("ctr_impr")) * 100 : 0;
+    let cr = val("cr_clicks") ? (val("cr_conv") / val("cr_clicks")) * 100 : 0;
+    let cpl = val("cpl_leads") ? val("cpl_spend") / val("cpl_leads") : 0;
+    let ber = val("ber_margin") ? (1 / (val("ber_margin") / 100)) : 0;
+    let clv = val("clv_aov") * val("clv_freq") * val("clv_life");
+
+    document.getElementById("roi_result").innerText = roi.toFixed(2);
+    document.getElementById("roas_result").innerText = roas.toFixed(2);
+    document.getElementById("cpc_result").innerText = cpc.toFixed(2);
+    document.getElementById("cpa_result").innerText = cpa.toFixed(2);
+    document.getElementById("ctr_result").innerText = ctr.toFixed(2);
+    document.getElementById("cr_result").innerText = cr.toFixed(2);
+    document.getElementById("cpl_result").innerText = cpl.toFixed(2);
+    document.getElementById("ber_result").innerText = ber.toFixed(2);
+    document.getElementById("clv_result").innerText = clv.toFixed(2);
+
+    document.getElementById("s_roi").innerText = roi.toFixed(2);
+    document.getElementById("s_roas").innerText = roas.toFixed(2);
+    document.getElementById("s_cpc").innerText = cpc.toFixed(2);
+    document.getElementById("s_cpa").innerText = cpa.toFixed(2);
+    document.getElementById("s_ctr").innerText = ctr.toFixed(2);
+    document.getElementById("s_cr").innerText = cr.toFixed(2);
+    document.getElementById("s_cpl").innerText = cpl.toFixed(2);
+    document.getElementById("s_ber").innerText = ber.toFixed(2);
+    document.getElementById("s_clv").innerText = clv.toFixed(2);
+}
+</script>
+
+</body>
+</html>

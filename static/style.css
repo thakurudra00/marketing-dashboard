@@ -1,0 +1,175 @@
+/* 🔥 GLOBAL RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 🌌 BODY */
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at top, #0f172a, #020617);
+    color: #e2e8f0;
+    text-align: center;
+}
+
+/* 🏷 TITLE */
+.title {
+    margin: 30px 0 10px;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* 📦 GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    padding: 25px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* 🧊 CARD (GLASS EFFECT) */
+.card {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    overflow: hidden;
+    height: 65px;
+    position: relative;
+}
+
+/* ✨ SUBTLE GLOW */
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 18px;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.08), transparent);
+    opacity: 0;
+    transition: 0.4s;
+    pointer-events: none; /* 🔥 FIX */
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+/* 🪄 HOVER EFFECT */
+.card:hover {
+    transform: translateY(-6px) scale(1.01);
+    border-color: rgba(255,255,255,0.2);
+}
+
+/* 📖 ACTIVE CARD */
+.card.active {
+    height: auto;
+    transform: scale(1.02);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* 🧾 CARD TITLE */
+.card h3 {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* 📥 CONTENT */
+.card .content {
+    opacity: 0;
+    max-height: 0;
+    transition: all 0.3s ease;
+}
+
+/* 📤 EXPANDED */
+.card.active .content {
+    opacity: 1;
+    max-height: 400px;
+    margin-top: 12px;
+}
+
+/* ⌨ INPUTS */
+input {
+    width: 92%;
+    padding: 10px;
+    margin: 6px 0;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background: rgba(255,255,255,0.08);
+    color: white;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+/* ✨ INPUT FOCUS */
+input:focus {
+    background: rgba(255,255,255,0.12);
+    transform: scale(1.02);
+}
+
+/* 📊 RESULT TEXT */
+.card p {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #94a3b8;
+}
+
+.card span {
+    color: #38bdf8;
+    font-weight: 600;
+}
+
+/* 🔥 SUMMARY PANEL */
+.summary {
+    margin: 40px auto;
+    max-width: 1100px;
+    padding: 20px;
+}
+
+.summary h2 {
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* 📊 SUMMARY GRID */
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+/* 💎 SUMMARY CARD */
+.summary-card {
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    padding: 16px;
+    border-radius: 14px;
+    font-weight: 500;
+    font-size: 15px;
+    transition: all 0.25s ease;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+}
+
+/* ✨ HOVER */
+.summary-card:hover {
+    transform: translateY(-4px) scale(1.03);
+}
+
+/* 📱 RESPONSIVE */
+@media (max-width: 900px) {
+    .grid, .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .grid, .summary-grid {
+        grid-template-columns: 1fr;
+    }
+}
